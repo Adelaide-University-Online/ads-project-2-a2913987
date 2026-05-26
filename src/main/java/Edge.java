@@ -45,4 +45,19 @@ public class Edge {
         this.weight = weight;
     }
 
+    public boolean equals(Edge other) {
+        return this.source == other.source
+                && this.dest == other.dest;
+    }
+
+    @Override
+    public int hashCode() {
+        return source + dest + (int) weight;
+    }
+
+    @Override
+    public String toString() {
+        return "" + source + dest;
+    }
+
 }
