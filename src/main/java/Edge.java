@@ -26,6 +26,19 @@ public class Edge {
     public Edge(int source, int dest) {
         this.source = source;
         this.dest = dest;
+        this.weight = 0.0;
+    }
+
+    /**
+     * Create edge from source, destination, weight.
+     *
+     * @param source source vertex
+     * @param dest destination vertex
+     * @param weight edges weight
+     */
+    public Edge(int source, int dest, double weight) {
+        this.source = source;
+        this.dest = dest;
         this.weight = weight;
     }
 
