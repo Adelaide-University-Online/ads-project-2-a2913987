@@ -100,7 +100,7 @@ public class Edge {
      * Compare edge with another edge object.
      *
      * @param o object to compare
-     * @return true if object is Edge with same source and destination
+     * @return true if object is Edge with same source, destination, weight
      */
     @Override
     public boolean equals(Object o) {
@@ -108,7 +108,8 @@ public class Edge {
         if (!(o instanceof Edge other)) {return false;}
 
         return this.source == other.source
-                && this.dest == other.dest;
+                && this.dest == other.dest
+                && this.weight == other.weight;
     }
 
     /**
