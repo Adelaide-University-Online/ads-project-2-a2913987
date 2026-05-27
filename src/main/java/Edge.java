@@ -119,7 +119,7 @@ public class Edge {
      */
     @Override
     public int hashCode() {
-        return source + dest + (int) weight;
+        return (source + " " + dest + " " + weight).hashCode();
     }
 
     /**
