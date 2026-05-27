@@ -12,6 +12,8 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashSet;
+import java.util.Set;
 
 class EdgeTest {
         @Test
@@ -71,6 +73,52 @@ class EdgeTest {
         assertEquals(edge1, edge2);
     }
 
+    @Test
+    void checkSameEdgesWithWeightEqual() {
+        Edge edge1 = new Edge(1, 2, 2);
+        Edge edge2 = new Edge(1, 2, 2);
 
+        assertEquals(edge1, edge2);
+    }
+
+    @Test
+    void checkEdgeDoesNotEqualNull() {
+        Edge edge = new Edge(1, 2);
+
+        assertNotEquals(null, edge);
+    }
+
+
+    @Test
+    void checkSameEdgesHaveSameHashCode() {
+        Edge edge1 = new Edge(1, 2, 3);
+        Edge edge2 = new Edge(1, 2, 3);
+
+        assertEquals(edge1, edge2);
+        assertEquals(edge1.hashCode(), edge2.hashCode());
+    }
+
+
+    @Test
+    void checkHashSetNoStoreSameEdgeTwice() {
+        Edge edge1 = new Edge(1, 2);
+        Edge edge2 = new Edge(1, 2);
+
+        edge1.setWeight(3.0);
+        edge2.setWeight(7.0);
+
+        Set<Edge> edges = new HashSet<>();
+        edges.add(edge1);
+        edges.add(edge2);
+
+        assertNotEquals(1, edges.size());
+    }
+
+    @Test
+    public void testHashCodeConsistentWithEquals() {
+        Edge edge1 = new Edge(3, 7, 1.0);
+        Edge edge2 = new Edge(3, 7, 50.0);
+        assertEquals(edge1.hashCode(), edge2.hashCode());
+    }
 
 }
