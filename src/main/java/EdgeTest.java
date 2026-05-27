@@ -15,14 +15,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Tests if edges store vertices, weights, equality, hash codes and returning string.
+ */
 class EdgeTest {
-        @Test
+
+    /** Source is saved.*/
+    @Test
     void checkSourceIsSaved() {
         Edge edge = new Edge(1, 2);
 
         assertEquals(1, edge.getSource());
     }
 
+    /** Destination  is saved.*/
     @Test
     void checkDestinationIsSaved() {
         Edge edge = new Edge(1, 2);
@@ -30,6 +36,7 @@ class EdgeTest {
         assertEquals(2, edge.getDest());
     }
 
+    /** Edge weight starts at zero.*/
     @Test
     void checkWeightStartsAtZero() {
         Edge edge = new Edge(1, 2);
@@ -37,6 +44,7 @@ class EdgeTest {
         assertEquals(0.0, edge.getWeight());
     }
 
+    /** Source vertex changes*/
     @Test
     void checkSourceChanged() {
         Edge edge = new Edge(1, 2);
@@ -46,6 +54,7 @@ class EdgeTest {
         assertEquals(3, edge.getSource());
     }
 
+    /** Destination vertex changes*/
     @Test
     void checkDestinationChanged() {
         Edge edge = new Edge(1, 2);
@@ -55,6 +64,7 @@ class EdgeTest {
         assertEquals(4, edge.getDest());
     }
 
+    /** Edge weight changes. */
     @Test
     void checkWeightChanged() {
         Edge edge = new Edge(1, 2);
@@ -65,6 +75,7 @@ class EdgeTest {
     }
 
 
+    /** Edges same source and destination equal. */
     @Test
     void checkSameEdgesEqual() {
         Edge edge1 = new Edge(1, 2);
@@ -73,6 +84,7 @@ class EdgeTest {
         assertEquals(edge1, edge2);
     }
 
+    /** Edges same source, destination, weight are equal. */
     @Test
     void checkSameEdgesWithWeightEqual() {
         Edge edge1 = new Edge(1, 2, 2);
@@ -81,6 +93,7 @@ class EdgeTest {
         assertEquals(edge1, edge2);
     }
 
+    /** Edge does not equal null.*/
     @Test
     void checkEdgeDoesNotEqualNull() {
         Edge edge = new Edge(1, 2);
@@ -88,7 +101,7 @@ class EdgeTest {
         assertNotEquals(null, edge);
     }
 
-
+    /** Equal edges same hash code. */
     @Test
     void checkSameEdgesHaveSameHashCode() {
         Edge edge1 = new Edge(1, 2, 3);
@@ -98,7 +111,7 @@ class EdgeTest {
         assertEquals(edge1.hashCode(), edge2.hashCode());
     }
 
-
+    /** HashSet stores separately edges with different weights . */
     @Test
     void checkHashSetNoStoreSameEdgeTwice() {
         Edge edge1 = new Edge(1, 2);
@@ -114,6 +127,7 @@ class EdgeTest {
         assertNotEquals(1, edges.size());
     }
 
+    /** Edges with different weights have different hash codes. */
     @Test
     public void testHashCodeConsistentWithEquals() {
         Edge edge1 = new Edge(3, 7, 1.0);
@@ -121,6 +135,7 @@ class EdgeTest {
         assertNotEquals(edge1.hashCode(), edge2.hashCode());
     }
 
+    /** toString shows source, destination and weight clearly.*/
     @Test
     void checkToStringShowsEdgeClearly() {
         Edge edge = new Edge(1, 2);
