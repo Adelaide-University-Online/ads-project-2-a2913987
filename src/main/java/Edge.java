@@ -9,8 +9,6 @@
  *    the University's Academic Integrity Policy.
  **/
 
-
-
 /**
  * Edge defines a connection between two vertices in a graph.
  */
@@ -86,12 +84,16 @@ public class Edge {
     }
 
     /**
-     * Compare edge with another edge.
+     * Compare edge with another edge object.
      *
-     * @param other edge to compare
-     * @return true if source and destination match
+     * @param o object to compare
+     * @return true if object is Edge with same source and destination
      */
-    public boolean equals(Edge other) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {return true;}
+        if (!(o instanceof Edge other)) {return false;}
+
         return this.source == other.source
                 && this.dest == other.dest;
     }
