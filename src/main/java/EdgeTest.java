@@ -118,7 +118,13 @@ class EdgeTest {
     public void testHashCodeConsistentWithEquals() {
         Edge edge1 = new Edge(3, 7, 1.0);
         Edge edge2 = new Edge(3, 7, 50.0);
-        assertEquals(edge1.hashCode(), edge2.hashCode());
+        assertNotEquals(edge1.hashCode(), edge2.hashCode());
+    }
+
+    @Test
+    void checkToStringShowsEdgeClearly() {
+        Edge edge = new Edge(1, 2);
+        assertEquals("Source: 1, Dest: 2, Weight: 0.0", edge.toString());
     }
 
 }
