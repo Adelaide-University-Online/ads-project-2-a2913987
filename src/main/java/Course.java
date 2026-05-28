@@ -36,4 +36,44 @@ public class Course {
     public String getCode() {
         return code;
     }
+
+    /**
+     * Compare course with another course object.
+     *
+     * @param obj course to compare
+     * @return true if object same course code
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Course)) {
+            return false;
+        }
+
+        Course other = (Course) obj;
+        return this.code.equals(other.code);
+    }
+
+    /**
+     * Return hash code for course.
+     *
+     * @return hash code
+     */
+    @Override
+    public int hashCode() {
+        return code.hashCode();
+    }
+
+    /**
+     * Return string version of this course.
+     *
+     * @return course as string
+     */
+    @Override
+    public String toString() {
+        return "Course code:" + code + "]";
+    }
+
 }
