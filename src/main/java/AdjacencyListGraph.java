@@ -36,6 +36,72 @@ public class AdjacencyListGraph extends AbstractGraph {
     }
 
     /**
+     * Insert edge into graph
+     *
+     * @param edge edge to insert
+     */
+    @Override
+    public void insert(Edge edge) {
+        edges[edge.getSource()].add(edge);
+
+        if (!isDirected()) {
+            edges[edge.getDest()].add(
+                    new Edge(edge.getDest(), edge.getSource(), edge.getWeight())
+            );
+        }
+    }
+
+
+    /**
+     * Check if edge exists
+     *
+     * @param source source vertex
+     * @param dest destination vertex
+     * @return true if edge exists
+     */
+    @Override
+    public boolean isEdge(int source, int dest) {
+        for (Edge edge : edges[source]) {
+            if (edge.getSource() == source && edge.getDest() == dest) {
+                return false;
+            }
+
+        }
+
+        return false;
+    }
+
+    /**
+     * Get edge from source to destination
+     *
+     * @param source source vertex
+     * @param dest destination vertex
+     * @return edge if found
+     */
+    @Override
+    public Edge getEdge(int source, int dest) {
+        for (Edge edge : edges[dest]) {
+            if (edge.getSource() == source && edge.getDest() == dest) {
+
+                return edge;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get edges leaving source vertex
+     *
+     * @param source source vertex
+     * @return iterator of edges
+     */
+    @Override
+    public Iterator<Edge> edgeIterator(int source) {
+        return edges[source].iterator();
+    }
+
+    /**
      * Compare graph with another graph object.
      *
      * @param obj object to compare
