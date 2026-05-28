@@ -80,7 +80,7 @@ public class AdjacencyListGraph extends AbstractGraph {
      */
     @Override
     public Edge getEdge(int source, int dest) {
-        for (Edge edge : edges[dest]) {
+        for (Edge edge : edges[source]) {
             if (edge.getSource() == source && edge.getDest() == dest) {
 
                 return edge;
