@@ -21,7 +21,7 @@ public interface Graph {
      *
      * @return number of vertices
      */
-    int getNum();
+    int getNumV();
 
     /**
      * Check if graph is directed.
