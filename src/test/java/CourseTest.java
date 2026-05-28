@@ -45,7 +45,7 @@ class CourseTest {
     void checkCourseDoesNotEqualString() {
         Course course = new Course("COMP1043");
 
-        assertNotEquals(course, "COMP1043");
+        assertNotEquals("COMP1043", course);
     }
 
     /** Equal courses same hash code. */
