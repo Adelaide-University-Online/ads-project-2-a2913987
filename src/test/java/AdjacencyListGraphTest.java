@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+
 /**
  * Tests graph edges stored, found, and handled by direction.
  */
@@ -50,5 +51,25 @@ class AdjacencyListGraphTest {
         assertEquals(1, edge.getDest());
         assertEquals(2.0, edge.getWeight());
     }
+
+    /** Missing edge returns null. */
+    @Test
+    void checkMissingEdgeReturnsNull() {
+        AdjacencyListGraph graph = new AdjacencyListGraph(3, true);
+
+        assertNull(graph.getEdge(0, 1));
+    }
+
+    /** Undirected edge goes both ways. */
+    @Test
+    void checkUndirectedEdgeGoesBothWays() {
+        AdjacencyListGraph graph = new AdjacencyListGraph(3, false);
+
+        graph.insert(new Edge(0, 1));
+
+        assertTrue(graph.isEdge(0, 1));
+        assertTrue(graph.isEdge(1, 0));
+    }
+
 
 }
