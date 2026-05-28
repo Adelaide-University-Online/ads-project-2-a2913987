@@ -23,8 +23,13 @@ public class Course {
      * Construct a Course with a code.
      *
      * @param code course code
+     * @throws IllegalArgumentException if code is null
      */
     public Course(String code) {
+        if (code == null) {
+            throw new IllegalArgumentException("Course needs code.");
+        }
+
         this.code = code;
     }
 
