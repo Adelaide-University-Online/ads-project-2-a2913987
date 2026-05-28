@@ -63,7 +63,7 @@ public class AdjacencyListGraph extends AbstractGraph {
     public boolean isEdge(int source, int dest) {
         for (Edge edge : edges[source]) {
             if (edge.getSource() == source && edge.getDest() == dest) {
-                return false;
+                return true;
             }
 
         }
