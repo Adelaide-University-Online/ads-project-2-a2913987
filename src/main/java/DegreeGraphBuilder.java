@@ -19,10 +19,11 @@ import java.io.File;
 import java.util.Scanner;
 
 
-
+/**
+ * DegreeGraphBuilder builds courses from a file.
+ */
 public class DegreeGraphBuilder {
 
-    private final LineParser lineParser = new LineParser();
     private final Map<String, Integer> convertToId = new HashMap<>();
     private final List<Course> courses = new ArrayList<>();
     private Graph graph;
@@ -51,7 +52,7 @@ public class DegreeGraphBuilder {
         convertToId.clear();
         courses.clear();
 
-        List<String> degreeCodes = lineParser.parse(scanner.nextLine());
+        List<String> degreeCodes = splitLine(scanner.nextLine());
         graph = new AdjacencyListGraph(degreeCodes.size(), true);
 
         // Create course code and add to course list
@@ -65,7 +66,7 @@ public class DegreeGraphBuilder {
 
         // Read line and add prerequisite edges to graph
         while (scanner.hasNextLine()) {
-            List<String> parts = lineParser.parse(scanner.nextLine());
+            List<String> parts = splitLine(scanner.nextLine());
 
             if (parts.isEmpty()) {
                 continue;
@@ -83,6 +84,35 @@ public class DegreeGraphBuilder {
         }
 
     }
+
+
+    /**
+     * Split line into course codes.
+     *
+     * @param line line for splitting
+     * @return list of course codes
+     */
+    private List<String> splitLine(String line) {
+        List<String> codes = new ArrayList<>();
+
+        if (line == null || line.isEmpty()) {
+            return codes;
+        }
+
+        // Split by comma, trim spaces, and keep only real course codes
+        for (String token : line.split(",")) {
+            String code = token.trim();
+
+            if (!code.isEmpty()) {
+                codes.add(code);
+            }
+        }
+
+        return codes;
+
+
+    }
+
 
     /**
      * Get graph.
