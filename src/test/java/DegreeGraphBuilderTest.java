@@ -32,4 +32,45 @@ class DegreeGraphBuilderTest {
         assertEquals(3, gbuild.getCourseCount());
     }
 
+
+    /** Vertex ids are assigned to courses. */
+    @Test
+    void checkCourseVertexIdsAssigned() {
+        DegreeGraphBuilder gbuild = new DegreeGraphBuilder();
+
+        gbuild.parse(new Scanner(SAMPLE));
+
+        assertEquals(0, gbuild.getVertexId("A"));
+        assertEquals(1, gbuild.getVertexId("B"));
+        assertEquals(2, gbuild.getVertexId("C"));
+    }
+
+    /** Prerequisite edges are added. */
+    @Test
+    void checkPrerequisiteEdgesAdded() {
+        DegreeGraphBuilder gbuild = new DegreeGraphBuilder();
+
+        gbuild.parse(new Scanner(SAMPLE));
+
+        Graph graph = gbuild.getGraph();
+
+        int a = gbuild.getVertexId("A");
+        int b = gbuild.getVertexId("B");
+        int c = gbuild.getVertexId("C");
+
+        assertTrue(graph.isEdge(b, a));
+        assertTrue(graph.isEdge(c, b));
+    }
+
+
+    /** Graph is directed. */
+    @Test
+    void checkGraphIsDirected() {
+        DegreeGraphBuilder gbuild = new DegreeGraphBuilder();
+
+        gbuild.parse(new Scanner(SAMPLE));
+
+        assertTrue(gbuild.getGraph().isDirected());
+    }
+
 }
