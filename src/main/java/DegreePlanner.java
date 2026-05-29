@@ -76,6 +76,7 @@ public class DegreePlanner {
             for (int i = 0; i < availableCourses.size() && currentPeriod.size() < maxCoursesAtOnce; i++) {
                 int v = availableCourses.get(i);
                 currentPeriod.add(courses.get(v));
+                plannedCourses.add(v);
             }
 
             studyPlan.add(currentPeriod);
