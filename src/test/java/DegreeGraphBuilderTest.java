@@ -73,4 +73,56 @@ class DegreeGraphBuilderTest {
         assertTrue(gbuild.getGraph().isDirected());
     }
 
+
+
+
+
+
+    /** Simple line splits into codes. */
+    @Test
+    void checkSimpleLineSplitsIntoCodes() {
+        DegreeGraphBuilder gbuild = new DegreeGraphBuilder();
+
+        gbuild.parse(new Scanner("A,B,C\n"));
+
+        assertEquals(3, gbuild.getCourseCount());
+        assertEquals(0, gbuild.getVertexId("A"));
+        assertEquals(1, gbuild.getVertexId("B"));
+        assertEquals(2, gbuild.getVertexId("C"));
+    }
+
+    /** Trailing space ignored. */
+    @Test
+    void checkTrailingSpaceIgnored() {
+        DegreeGraphBuilder gbuild = new DegreeGraphBuilder();
+
+        gbuild.parse(new Scanner("INFT3046, INFS3081 \n"));
+
+        assertEquals(2, gbuild.getCourseCount());
+        assertEquals(1, gbuild.getVertexId("INFS3081"));
+    }
+
+    /** Empty code between commas ignored. */
+    @Test
+    void checkEmptyCodeIgnored() {
+        DegreeGraphBuilder gbuild = new DegreeGraphBuilder();
+
+        gbuild.parse(new Scanner("COMP1043, , MATH1080\n"));
+
+        assertEquals(2, gbuild.getCourseCount());
+        assertEquals(0, gbuild.getVertexId("COMP1043"));
+        assertEquals(1, gbuild.getVertexId("MATH1080"));
+    }
+
+    /** Empty line returns no courses. */
+    @Test
+    void checkEmptyLineReturnsNoCourses() {
+        DegreeGraphBuilder gbuild = new DegreeGraphBuilder();
+
+        gbuild.parse(new Scanner("\n"));
+
+        assertEquals(0, gbuild.getCourseCount());
+    }
+
+
 }
