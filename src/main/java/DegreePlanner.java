@@ -47,4 +47,51 @@ public class DegreePlanner {
         return maxCoursesAtOnce;
     }
 
+
+
+    /**
+     * Compare planner with another planner object.
+     *
+     * @param obj object to compare
+     * @return true if same graph, courses and maxConcurrent
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof DegreePlanner)) {
+            return false;
+        }
+
+        DegreePlanner other = (DegreePlanner) obj;
+
+        return maxCoursesAtOnce == other.maxCoursesAtOnce
+                && courses.equals(other.courses)
+                && graph.equals(other.graph);
+    }
+
+    /**
+     * Return hash code for planner.
+     *
+     * @return hash code
+     */
+    @Override
+    public int hashCode() {
+        return (maxCoursesAtOnce + " " + courses + " " + graph).hashCode();
+    }
+
+    /**
+     * Return string version of this planner.
+     *
+     * @return planner as string
+     */
+    @Override
+    public String toString() {
+        return "Courses: " + courses.size()
+                + "\nCourses allowed in Study Period: " + maxCoursesAtOnce;
+    }
+
+
+
 }
