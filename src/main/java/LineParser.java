@@ -31,7 +31,11 @@ public class LineParser {
         String[] tokens = line.split(",");
 
         for (String token : tokens) {
-            codes.add(token.trim());
+            String code = token.trim();
+
+           if (!code.isEmpty()) {
+               codes.add(code);
+           }
         }
         return codes;
     }
