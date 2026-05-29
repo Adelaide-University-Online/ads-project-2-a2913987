@@ -51,7 +51,7 @@ public class DegreeGraphBuilder {
         convertToId.clear();
         courses.clear();
 
-        List<String> degreeCodes = lineParser.parse(scanner.next());
+        List<String> degreeCodes = lineParser.parse(scanner.nextLine());
         graph = new AdjacencyListGraph(degreeCodes.size(), true);
 
         // Create course code and add to course list
