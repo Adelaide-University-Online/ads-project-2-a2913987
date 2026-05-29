@@ -72,7 +72,7 @@ public class DegreeGraphBuilder {
             }
 
             // Get the id of first course on this line
-            int courseId = convertToId.get(parts.get(1));
+            int courseId = convertToId.get(parts.get(0));
 
             // Iterate of ids in line and insert as edges in graph
             for (int i = 1; i < parts.size(); i++) {
