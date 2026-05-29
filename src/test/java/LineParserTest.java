@@ -51,4 +51,12 @@ class LineParserTest {
         assertEquals(List.of("COMP1043", "MATH1080"), result);
     }
 
+    /** Empty line returns empty list. */
+    @Test
+    void checkEmptyLineReturnsEmptyList() {
+        LineParser parser = new LineParser();
+
+        assertTrue(parser.parse("").isEmpty());
+    }
+
 }
