@@ -61,4 +61,37 @@ class DegreePlannerTest {
         assertEquals("A", studyPlan.get(0).get(0).getCode());
     }
 
+    /** Courses added in order. */
+    @Test
+    void checkCoursesAddedInOrder() {
+        List<Course> courses = makeCourses(new String[]{"A", "B", "C"});
+        Graph graph = new AdjacencyListGraph(3, true);
+
+        graph.insert(new Edge(0, 1));
+        graph.insert(new Edge(1, 2));
+
+        DegreePlanner planner = new DegreePlanner(graph, courses, 2);
+        List<List<Course>> studyPlan = planner.plan();
+
+        assertEquals(3, studyPlan.size());
+        assertEquals("A", studyPlan.get(0).get(0).getCode());
+        assertEquals("B", studyPlan.get(1).get(0).getCode());
+        assertEquals("C", studyPlan.get(2).get(0).getCode());
+    }
+
+    /** Different courses share study period. */
+    @Test
+    void checkDiffCoursesSharePeriod() {
+        List<Course> courses = makeCourses(new String[]{"A", "B"});
+        Graph graph = new AdjacencyListGraph(2, true);
+
+        DegreePlanner planner = new DegreePlanner(graph, courses, 2);
+        List<List<Course>> studyPlan = planner.plan();
+
+        assertEquals(1, studyPlan.size());
+        assertEquals(2, studyPlan.get(0).size());
+    }
+
+
+
 }
