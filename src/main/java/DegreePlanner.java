@@ -49,70 +49,82 @@ public class DegreePlanner {
 
 
     /**
-     * Build study plan. Keeps selecting courses with prereqs that
-     * are already among plannedCourses.
+     * Build study plan. Keeps selecting courses with prereqs
+     * already in plannedCourses.
+     * Credit Khan algo.
      *
      * @return list of study periods
      */
     public List<List<Course>> plan() {
-        int numV = graph.getNumV();
-        Set<Integer> plannedCourses = new HashSet<>();
+
+        int numCourses = graph.getNumV();
+        int[] prereqsLeft = new int[numCourses];
+
+        // Count prerequisites for each course
+        for (int course = 0; course < numCourses; course++) {
+            Iterator<Edge> edgeIt = graph.edgeIterator(course);
+
+            while (edgeIt.hasNext()) {
+                Edge edge = edgeIt.next();
+                int courseAfter = edge.getDest();
+
+                prereqsLeft[courseAfter]++;
+            }
+        }
+
+        List<Integer> canUseNow = new ArrayList<>();
+
+        // Find courses with no prerequisites left
+        for (int course = 0; course < numCourses; course++) {
+            if (prereqsLeft[course] == 0) {
+                canUseNow.add(course);
+            }
+        }
+
         List<List<Course>> studyPlan = new ArrayList<>();
 
-        // Create study periods until each course is in a plan
-        while (plannedCourses.size() < numV) {
-            List<Integer> availableCourses = new LinkedList<>();
+        while (!canUseNow.isEmpty()) {
+            List<Course> thisPeriod = new ArrayList<>();
+            List<Integer> nextCourses = new ArrayList<>();
 
-            // Find courses not planned with no remaining prerequisites
-            for (int v = 0; v < numV; v++) {
-                if (!plannedCourses.contains(v) && prereqsDone(v, plannedCourses)) {
-                    availableCourses.add(v);
+            for (int i = 0; i < canUseNow.size(); i++) {
+                int course = canUseNow.get(i);
+
+                // Reduce prerequisites for courses after this one
+                Iterator<Edge> it = graph.edgeIterator(course);
+
+                while (it.hasNext()) {
+                    Edge edge = it.next();
+                    int nextCourse = edge.getDest();
+
+                    prereqsLeft[nextCourse]--;
+
+                    if (prereqsLeft[nextCourse] == 0) {
+                        nextCourses.add(nextCourse);
+                    }
+                }
+
+                // Add course if this period has room
+                if (thisPeriod.size() < maxCoursesAtOnce) {
+                    thisPeriod.add(courses.get(course));
+                } else {
+                    nextCourses.add(course);
                 }
             }
 
-            List<Course> currentPeriod = new LinkedList<>();
-
-            // Can take only maxCoursesAtOnce in currentPeriod
-            for (int i = 0; i < availableCourses.size() && currentPeriod.size() < maxCoursesAtOnce; i++) {
-                int v = availableCourses.get(i);
-                currentPeriod.add(courses.get(v));
-                plannedCourses.add(v);
-            }
-
-            studyPlan.add(currentPeriod);
+            studyPlan.add(thisPeriod);
+            canUseNow = nextCourses;
         }
+
         return studyPlan;
 
     }
 
-    /**
-     * Check if prereqs for this course are already in plannedCourses set.
-     *
-     * @param course course vertex id
-     * @param plannedCourses completed course ids
-     * @return true if prerequisites are completed
-     */
-    private boolean prereqsDone(int course, Set<Integer> plannedCourses) {
 
-        // Iterate over course vertex in graph
-        for (int i = 0; i < graph.getNumV(); i++) {
 
-            // Get edges of current vertex
-            Iterator<Edge> it = graph.edgeIterator(i);
 
-            // Check each edge from this vertex
-            while (it.hasNext()) {
-                Edge edge = it.next();
 
-                // If this edge is a missing prerequisite for course, course is not ready
-                if (edge.getDest() == course && !plannedCourses.contains(edge.getSource())) {
-                    return false;
-                }
-            }
-        }
 
-        return true;
-    }
 
 
     /**
