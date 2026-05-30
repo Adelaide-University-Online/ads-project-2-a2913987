@@ -49,9 +49,7 @@ public class DegreePlanner {
 
 
     /**
-     * Build study plan. Keeps selecting courses with prereqs
-     * already in plannedCourses.
-     * Credit Khan algo.
+     * Build study plan by taking courses with no prerequisites left.
      *
      * @return list of study periods
      */
@@ -60,7 +58,7 @@ public class DegreePlanner {
         int numCourses = graph.getNumV();
         int[] prereqsLeft = new int[numCourses];
 
-        // Count prerequisites for each course
+        // Count prereqs for each course
         for (int course = 0; course < numCourses; course++) {
             Iterator<Edge> edgeIt = graph.edgeIterator(course);
 
@@ -74,7 +72,7 @@ public class DegreePlanner {
 
         List<Integer> canUseNow = new ArrayList<>();
 
-        // Find courses with no prerequisites left
+        // Find courses with no prereqs left
         for (int course = 0; course < numCourses; course++) {
             if (prereqsLeft[course] == 0) {
                 canUseNow.add(course);
@@ -85,12 +83,30 @@ public class DegreePlanner {
 
         while (!canUseNow.isEmpty()) {
             List<Course> thisPeriod = new ArrayList<>();
-            List<Integer> nextCourses = new ArrayList<>();
+            List<Integer> coursesTaken = new ArrayList<>();
 
-            for (int i = 0; i < canUseNow.size(); i++) {
+            // Take up to maxCoursesAtOnce courses this period
+            for (int i = 0; i < canUseNow.size()
+                    && coursesTaken.size() < maxCoursesAtOnce; i++) {
                 int course = canUseNow.get(i);
 
-                // Reduce prerequisites for courses after this one
+                coursesTaken.add(course);
+                thisPeriod.add(courses.get(course));
+            }
+
+            studyPlan.add(thisPeriod);
+
+            List<Integer> nextCourses = new ArrayList<>();
+
+            // Keep courses that were available but not used
+            for (int course : canUseNow) {
+                if (!coursesTaken.contains(course)) {
+                    nextCourses.add(course);
+                }
+            }
+
+            // Only coursesTaken can unlock later courses
+            for (int course : coursesTaken) {
                 Iterator<Edge> it = graph.edgeIterator(course);
 
                 while (it.hasNext()) {
@@ -103,18 +119,11 @@ public class DegreePlanner {
                         nextCourses.add(nextCourse);
                     }
                 }
-
-                // Add course if this period has room
-                if (thisPeriod.size() < maxCoursesAtOnce) {
-                    thisPeriod.add(courses.get(course));
-                } else {
-                    nextCourses.add(course);
-                }
             }
 
-            studyPlan.add(thisPeriod);
             canUseNow = nextCourses;
         }
+        
 
         return studyPlan;
 
