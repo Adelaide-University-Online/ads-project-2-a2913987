@@ -48,6 +48,15 @@ class DegreePlannerTest {
         assertEquals(4, planner.getMaxCoursesAtOnce());
     }
 
+    /** Null graph rejected. */
+    @Test
+    void checkNullGraphRejected() {
+        List<Course> courses = makeCourses(new String[]{"A"});
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new DegreePlanner(null, courses, 1));
+    }
+
     /** One course one study period. */
     @Test
     void checkSingleCourseCreatesOnePeriod() {
@@ -92,6 +101,49 @@ class DegreePlannerTest {
         assertEquals(2, studyPlan.get(0).size());
     }
 
+    /** Excess available courses go to second period. */
+    @Test
+    void checkExcessAvailCoursesMoveToSecondPeriod() {
+        List<Course> courses = makeCourses(new String[]{"A", "B", "C"});
+        Graph graph = new AdjacencyListGraph(3, true);
+
+        // All courses have no prerequisites
+        DegreePlanner planner = new DegreePlanner(graph, courses, 2);
+        List<List<Course>> studyPlan = planner.plan();
+
+        assertEquals(2, studyPlan.size());
+        assertEquals(2, studyPlan.get(0).size());
+        assertEquals(1, studyPlan.get(1).size());
+    }
+
+
+    /** Course not taken waits until later period. */
+    @Test
+    void checkPrereqMustBeTakenFirst() {
+        Graph graph = new AdjacencyListGraph(3, true);
+
+        Course courseA = new Course("A");
+        Course courseB = new Course("B");
+        Course courseC = new Course("C");
+
+        List<Course> courses = List.of(courseA, courseB, courseC);
+
+        graph.insert(new Edge(1, 2));
+
+        DegreePlanner planner = new DegreePlanner(graph, courses, 1);
+
+        List<List<Course>> studyPlan = planner.plan();
+
+        assertEquals(3, studyPlan.size());
+
+        assertEquals(1, studyPlan.get(0).size());
+        assertEquals(1, studyPlan.get(1).size());
+        assertEquals(1, studyPlan.get(2).size());
+
+        assertEquals(courseA, studyPlan.get(0).get(0));
+        assertEquals(courseB, studyPlan.get(1).get(0));
+        assertEquals(courseC, studyPlan.get(2).get(0));
+    }
 
 
 }
